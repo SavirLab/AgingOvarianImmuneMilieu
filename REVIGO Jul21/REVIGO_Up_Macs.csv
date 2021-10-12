@@ -1,0 +1,31 @@
+TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
+GO:0032609," ""interferon-gamma production""",3.06E-05,5.482524101,-1.75600435,0.903089987,-3.413525221,0.893425795,0, null, False
+GO:0042110," ""T cell activation""",0.042299606,3.363407288,-6.683689402,3.985471383,-7.694648631,0.650320303,0, null, False
+GO:0046649," ""lymphocyte activation""",0.067460654, null, null,4.188168859,-4.798602876,0.646026909,0.93240204,42110, True
+GO:0030098," ""lymphocyte differentiation""",0.044093074, null, null,4.003503615,-4.48945499,0.584989021,0.94179587,42110, True
+GO:0045321," ""leukocyte activation""",0.088347998, null, null,4.305308368,-5.096367484,0.646092556,0.94949734,42110, True
+GO:0030217," ""T cell differentiation""",0.028870465, null, null,3.819609733,-4.1837587,0.593369493,0.95594697,42110, True
+GO:1903131," ""mononuclear cell differentiation""",0.050422705, null, null,4.061753968,-3.757647436,0.634450655,0.9592117,42110, True
+GO:0050863," ""regulation of T cell activation""",0.054661414,-3.825362853,-5.658402471,4.09680577,-7.015922966,0.436839796,0, null, False
+GO:0045619," ""regulation of lymphocyte differentiation""",0.028717364, null, null,3.817300878,-2.539105463,0.405881543,0.91281193,50863, True
+GO:0050870," ""positive regulation of T cell activation""",0.03125884, null, null,3.854123782,-7.034798299,0.275171404,0.9177795,50863, True
+GO:0050867," ""positive regulation of cell activation""",0.05376468, null, null,4.089622552,-2.816429529,0.386253965,0.92224233,50863, True
+GO:0045580," ""regulation of T cell differentiation""",0.023538178, null, null,3.730943693,-2.29176212,0.40677292,0.93063579,50863, True
+GO:0045582," ""positive regulation of T cell differentiation""",0.014207768, null, null,3.511749711,-1.711643958,0.26730091,0.94729261,50863, True
+GO:0051249," ""regulation of lymphocyte activation""",0.078002748, null, null,4.25122441,-3.89788201,0.431882172,0.95367909,50863, True
+GO:0051251," ""positive regulation of lymphocyte activation""",0.046787651, null, null,4.029261996,-2.991280627,0.376501811,0.95904834,50863, True
+GO:1903039," ""positive regulation of leukocyte cell-cell adhesion""",0.034172133, null, null,3.892817824,-6.441291429,0.487719924,0.9718604,50863, True
+GO:0002694," ""regulation of leukocyte activation""",0.091130061, null, null,4.31877266,-4.029653124,0.430129723,0.97978188,50863, True
+GO:0002696," ""positive regulation of leukocyte activation""",0.052574867, null, null,4.079904468,-2.967137973,0.376006313,0.98886377,50863, True
+GO:0007159," ""leukocyte cell-cell adhesion""",0.008354938,-0.666785233,5.854635709,3.281260687,-5.493494968,0.996796214,0.00570618, null, False
+GO:0001775," ""cell activation""",0.110040216,3.962349259,3.731596711,4.40065885,-4.63638802,0.99629619,0.00671512, null, False
+GO:0032649," ""regulation of interferon-gamma production""",0.016788613,-4.686305676,1.592294353,3.584218112,-2.368851611,0.702899485,0.15095745, null, False
+GO:0032729," ""positive regulation of interferon-gamma production""",0.011583181, null, null,3.423081958,-1.306710801,0.585868466,0.75212401,32649, True
+GO:0022409," ""positive regulation of cell-cell adhesion""",0.040834211,-6.479124775,-1.218862241,3.970160843,-6.382999659,0.489608168,0.16989319, null, False
+GO:0022407," ""regulation of cell-cell adhesion""",0.072066806, null, null,4.216851783,-4.958607315,0.5577066,0.88411654,22409, True
+GO:0045785," ""positive regulation of cell adhesion""",0.068764199, null, null,4.196480168,-3.325389592,0.492069399,0.91585523,22409, True
+GO:1903037," ""regulation of leukocyte cell-cell adhesion""",0.050733281, null, null,4.064420548,-5.321481621,0.550057632,0.93960179,22409, True
+GO:0050865," ""regulation of cell activation""",0.096632947,-5.727959605,-4.004031514,4.344235035,-4.218244625,0.793570133,0.18001829, null, False
+GO:0030155," ""regulation of cell adhesion""",0.128556683,-3.505032996,-2.082573325,4.468199586,-2.103486183,0.789965717,0.19133961, null, False
+GO:0002521," ""leukocyte differentiation""",0.064140551,4.400761798,-4.662047772,4.166252452,-2.893264621,0.641237084,0.6211951, null, False
+GO:0048534," ""hematopoietic or lymphoid organ development""",0.149824592, null, null,4.534685935,-1.424492154,0.62892944,0.93213988,2521, True

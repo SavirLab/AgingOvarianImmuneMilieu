@@ -1,0 +1,268 @@
+TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
+GO:0002376," ""immune system process""",0.876,4.667,-5.331,5.302,-7.374,1,0,-1, False
+GO:0002520," ""immune system development""",0.155,2.293,-2.948,4.55,-6.717,0.908,0,-1, False
+GO:0030097," ""hemopoiesis""",0.139, null, null,4.502,-4.959,0.903,0.72,2520, True
+GO:0006955," ""immune response""",0.683, null, null,5.193,-2.183,0.836,0.82,2520, True
+GO:0030099," ""myeloid cell differentiation""",0.053, null, null,4.087,-2.042,0.902,0.92,2520, True
+GO:0002521," ""leukocyte differentiation""",0.064, null, null,4.166,-1.508,0.901,0.932,2520, True
+GO:0048534," ""hematopoietic or lymphoid organ development""",0.15, null, null,4.535,-4.595,0.902,0.987,2520, True
+GO:0006351," ""transcription  DNA-templated""",2.005,-3.628,5.372,5.661,-10.987,0.862,0,-1, False
+GO:0006366," ""transcription by RNA polymerase II""",0.219, null, null,4.7,-10.559,0.892,0.761,6351, True
+GO:0097659," ""nucleic acid-templated transcription""",2.031, null, null,5.667,-10.959,0.873,0.952,6351, True
+GO:0006950," ""response to stress""",4.522,6.281,-2.102,6.014,-11.328,0.885,0,-1, False
+GO:0008152," ""metabolic process""",62.634,-1.815,-6.297,7.156,-24.701,1,0,-1, False
+GO:0009987," ""cellular process""",79.11,3.368,-5.101,7.257,-7.987,1,0,-1, False
+GO:0010604," ""positive regulation of macromolecule metabolic process""",1.332,5.568,3.748,5.484,-18.105,0.646,0,-1, False
+GO:0045944," ""positive regulation of transcription by RNA polymerase II""",0.393, null, null,4.954,-10.394,0.666,0.853,10604, True
+GO:0032270," ""positive regulation of cellular protein metabolic process""",0.481, null, null,5.041,-2.377,0.653,0.871,10604, True
+GO:0051247," ""positive regulation of protein metabolic process""",0.496, null, null,5.055,-2.784,0.655,0.873,10604, True
+GO:0009893," ""positive regulation of metabolic process""",1.408, null, null,5.508,-18.777,0.655,0.875,10604, True
+GO:0051254," ""positive regulation of RNA metabolic process""",0.784, null, null,5.254,-14.399,0.652,0.917,10604, True
+GO:0048522," ""positive regulation of cellular process""",1.99, null, null,5.658,-11.824,0.676,0.918,10604, True
+GO:0045935," ""positive regulation of nucleobase-containing compound metabolic process""",0.834, null, null,5.28,-14.783,0.653,0.923,10604, True
+GO:0009891," ""positive regulation of biosynthetic process""",0.85, null, null,5.288,-11.77,0.658,0.925,10604, True
+GO:0051173," ""positive regulation of nitrogen compound metabolic process""",1.258, null, null,5.459,-15.91,0.647,0.967,10604, True
+GO:0045893," ""positive regulation of transcription  DNA-templated""",0.701, null, null,5.205,-12.381,0.652,0.968,10604, True
+GO:0010557," ""positive regulation of macromolecule biosynthetic process""",0.819, null, null,5.272,-13.339,0.655,0.968,10604, True
+GO:1902680," ""positive regulation of RNA biosynthetic process""",0.701, null, null,5.205,-12.357,0.653,0.97,10604, True
+GO:0031325," ""positive regulation of cellular metabolic process""",1.313, null, null,5.477,-17.625,0.644,0.972,10604, True
+GO:0031328," ""positive regulation of cellular biosynthetic process""",0.844, null, null,5.286,-11.44,0.652,0.987,10604, True
+GO:1903508," ""positive regulation of nucleic acid-templated transcription""",0.701, null, null,5.205,-12.381,0.652,0.993,10604, True
+GO:0016032," ""viral process""",0.155,3.971,-5.733,4.549,-2.98,1,0,-1, False
+GO:0019058," ""viral life cycle""",0.126,2.213,-5.348,4.458,-1.377,1,0,-1, False
+GO:0032502," ""developmental process""",2.266,-5.506,-3.925,5.714,-1.577,1,0,-1, False
+GO:0040007," ""growth""",0.122,0.245,-6.592,4.447,-3.354,1,0,-1, False
+GO:0044419," ""biological process involved in interspecies interaction between organisms""",0.755,-1.315,-5.53,5.237,-6.467,1,0,-1, False
+GO:0016049," ""cell growth""",0.04,1.159,-6.471,3.962,-4.759,0.988,0.008,-1, False
+GO:0048588," ""developmental cell growth""",0.025, null, null,3.749,-1.321,0.964,0.83,16049, True
+GO:0061919," ""process utilizing autophagic mechanism""",0.218,-0.101,-5.621,4.697,-3.531,0.993,0.01,-1, False
+GO:0006915," ""apoptotic process""",0.218,2.063,-6.393,4.699,-7.453,0.973,0.01,-1, False
+GO:0097193," ""intrinsic apoptotic signaling pathway""",0.029, null, null,3.825,-4.208,0.75,0.839,6915, True
+GO:0097190," ""apoptotic signaling pathway""",0.053, null, null,4.086,-3.389,0.74,0.876,6915, True
+GO:0012501," ""programmed cell death""",0.248, null, null,4.753,-7.26,0.973,0.982,6915, True
+GO:0008219," ""cell death""",0.256,3.033,-6.13,4.767,-9.007,0.993,0.01,-1, False
+GO:0046907," ""intracellular transport""",1.822,-3.971,-4.894,5.62,-6.45,0.941,0.012,-1, False
+GO:0033365," ""protein localization to organelle""",0.628, null, null,5.157,-2.4,0.936,0.805,46907, True
+GO:0070727," ""cellular macromolecule localization""",1.598, null, null,5.563,-2.871,0.932,0.898,46907, True
+GO:0006886," ""intracellular protein transport""",1.245, null, null,5.454,-3.09,0.931,0.918,46907, True
+GO:0051649," ""establishment of localization in cell""",1.968, null, null,5.653,-2.827,0.941,0.921,46907, True
+GO:0034613," ""cellular protein localization""",1.588, null, null,5.56,-2.819,0.929,0.955,46907, True
+GO:0006996," ""organelle organization""",4.279,-0.579,-3.222,5.99,-6.943,0.954,0.014,-1, False
+GO:0016043," ""cellular component organization""",7.49, null, null,6.234,-6.676,0.953,0.756,6996, True
+GO:0071840," ""cellular component organization or biogenesis""",9.154,-0.796,-6.515,6.321,-7.78,0.99,0.018,-1, False
+GO:0070988," ""demethylation""",0.083,1.012,-5.202,4.276,-1.623,0.983,0.032,-1, False
+GO:0044237," ""cellular metabolic process""",51.477,-6.485,-0.09,7.071,-30.551,0.941,0.076,-1, False
+GO:0044248," ""cellular catabolic process""",4.061,-4.051,-1.779,5.968,-5.836,0.903,0.091,-1, False
+GO:0009057," ""macromolecule catabolic process""",2.208, null, null,5.703,-4.903,0.891,0.759,44248, True
+GO:1901565," ""organonitrogen compound catabolic process""",2.485, null, null,5.754,-2.122,0.898,0.772,44248, True
+GO:1901575," ""organic substance catabolic process""",5.44, null, null,6.095,-1.429,0.908,0.871,44248, True
+GO:0009056," ""catabolic process""",5.897,-6.031,-3.41,6.13,-5.658,0.97,0.1,-1, False
+GO:0009058," ""biosynthetic process""",24.708,-6.38,-1.874,6.752,-11.83,0.958,0.17,-1, False
+GO:0034641," ""cellular nitrogen compound metabolic process""",26.444,-5.161,2.246,6.781,-19.886,0.918,0.175,-1, False
+GO:0006793," ""phosphorus metabolic process""",14.335,-6.932,1.402,6.515,-1.449,0.941,0.197,-1, False
+GO:0043170," ""macromolecule metabolic process""",34.507,-5.123,0.686,6.897,-28.445,0.939,0.202,-1, False
+GO:1901360," ""organic cyclic compound metabolic process""",22.607,-4.849,-0.193,6.713,-17.597,0.946,0.209,-1, False
+GO:0022407," ""regulation of cell-cell adhesion""",0.072,3.44,3.526,4.217,-1.634,0.823,0.212,-1, False
+GO:0001558," ""regulation of cell growth""",0.083,6.343,4.504,4.278,-3.545,0.817,0.214,-1, False
+GO:0045926," ""negative regulation of growth""",0.045, null, null,4.009,-1.95,0.774,0.856,1558, True
+GO:0046483," ""heterocycle metabolic process""",21.847,-6.333,1.597,6.698,-19.633,0.935,0.226,-1, False
+GO:0006725," ""cellular aromatic compound metabolic process""",21.889,-6.072,1.336,6.699,-19.089,0.935,0.226,-1, False
+GO:0040008," ""regulation of growth""",0.175,3.521,5.162,4.602,-2.925,0.816,0.229,-1, False
+GO:0002682," ""regulation of immune system process""",0.288,4.995,5.722,4.818,-4.276,0.808,0.241,-1, False
+GO:0006807," ""nitrogen compound metabolic process""",45.593,-6.385,-0.648,7.018,-25.401,0.949,0.241,-1, False
+GO:0042981," ""regulation of apoptotic process""",0.32,4.2,3.214,4.864,-5.991,0.781,0.243,-1, False
+GO:0060548," ""negative regulation of cell death""",0.183, null, null,4.622,-3.562,0.733,0.932,42981, True
+GO:0043066," ""negative regulation of apoptotic process""",0.162, null, null,4.568,-2.07,0.735,0.935,42981, True
+GO:0043067," ""regulation of programmed cell death""",0.332, null, null,4.88,-5.854,0.78,0.98,42981, True
+GO:0043069," ""negative regulation of programmed cell death""",0.167, null, null,4.582,-1.949,0.734,0.981,42981, True
+GO:0070647," ""protein modification by small protein conjugation or removal""",1.191,-1.74,7.349,5.435,-8.678,0.894,0.244,-1, False
+GO:0080134," ""regulation of response to stress""",0.341,4.132,5.888,4.892,-7.318,0.745,0.245,-1, False
+GO:0032101," ""regulation of response to external stimulus""",0.211, null, null,4.684,-1.841,0.755,0.738,80134, True
+GO:1902531," ""regulation of intracellular signal transduction""",0.475, null, null,5.036,-3.514,0.731,0.792,80134, True
+GO:0009966," ""regulation of signal transduction""",0.89, null, null,5.308,-2.775,0.716,0.909,80134, True
+GO:0010941," ""regulation of cell death""",0.357,5.594,5.069,4.912,-6.886,0.798,0.246,-1, False
+GO:0044238," ""primary metabolic process""",49.956,-6.073,-0.404,7.058,-22.79,0.948,0.257,-1, False
+GO:0044260," ""cellular macromolecule metabolic process""",25.538,-3.69,3.734,6.766,-25.854,0.885,0.264,-1, False
+GO:0023051," ""regulation of signaling""",0.987,5.092,5.125,5.353,-1.59,0.785,0.274,-1, False
+GO:0035456," ""response to interferon-beta""",0.005,5.834,-2.894,3.054,-3.19,0.877,0.274,-1, False
+GO:0051128," ""regulation of cellular component organization""",1,4.355,3.77,5.359,-5.466,0.777,0.274,-1, False
+GO:0071704," ""organic substance metabolic process""",55.166,-6.163,0.032,7.101,-21.65,0.946,0.278,-1, False
+GO:0065009," ""regulation of molecular function""",2.07,4.077,4.473,5.675,-6.936,0.781,0.278,-1, False
+GO:0048583," ""regulation of response to stimulus""",1.204,4.697,5.048,5.44,-4.521,0.78,0.28,-1, False
+GO:0010646," ""regulation of cell communication""",0.982,5.539,4.521,5.351,-1.535,0.778,0.282,-1, False
+GO:0050790," ""regulation of catalytic activity""",1.909,4.274,4.892,5.64,-5.842,0.748,0.291,-1, False
+GO:0043087," ""regulation of GTPase activity""",0.157, null, null,4.556,-1.834,0.797,0.729,50790, True
+GO:0045859," ""regulation of protein kinase activity""",0.337, null, null,4.887,-2.442,0.693,0.787,50790, True
+GO:0043085," ""positive regulation of catalytic activity""",0.374, null, null,4.932,-4.079,0.781,0.796,50790, True
+GO:0051338," ""regulation of transferase activity""",0.415, null, null,4.977,-1.547,0.781,0.804,50790, True
+GO:0044093," ""positive regulation of molecular function""",0.46, null, null,5.022,-4.79,0.78,0.813,50790, True
+GO:0051336," ""regulation of hydrolase activity""",0.611, null, null,5.145,-1.959,0.773,0.839,50790, True
+GO:0071901," ""negative regulation of protein serine/threonine kinase activity""",0.052, null, null,4.075,-1.394,0.686,0.843,50790, True
+GO:0051345," ""positive regulation of hydrolase activity""",0.159, null, null,4.561,-1.929,0.795,0.89,50790, True
+GO:0042325," ""regulation of phosphorylation""",0.455, null, null,5.017,-1.829,0.73,0.9,50790, True
+GO:0071900," ""regulation of protein serine/threonine kinase activity""",0.226, null, null,4.712,-2.641,0.703,0.948,50790, True
+GO:0043549," ""regulation of kinase activity""",0.366, null, null,4.923,-2.39,0.711,0.967,50790, True
+GO:0001932," ""regulation of protein phosphorylation""",0.413, null, null,4.975,-1.537,0.71,0.967,50790, True
+GO:0048518," ""positive regulation of biological process""",2.158,4.472,4.304,5.693,-12.693,0.766,0.3,-1, False
+GO:0006984," ""ER-nucleus signaling pathway""",0.015,5.45,0.595,3.542,-1.414,0.774,0.3,-1, False
+GO:0043618," ""regulation of transcription from RNA polymerase II promoter in response to stress""",0.02,5.685,1.034,3.662,-5.467,0.716,0.307,-1, False
+GO:0007249," ""I-kappaB kinase/NF-kappaB signaling""",0.021,5.789,0.654,3.68,-3.067,0.769,0.308,-1, False
+GO:0048523," ""negative regulation of cellular process""",2.15,5.148,4.363,5.691,-10.78,0.685,0.319,-1, False
+GO:0000122," ""negative regulation of transcription by RNA polymerase II""",0.189, null, null,4.635,-4.772,0.692,0.709,48523, True
+GO:0051172," ""negative regulation of nitrogen compound metabolic process""",1.309, null, null,5.476,-9.385,0.658,0.877,48523, True
+GO:0031327," ""negative regulation of cellular biosynthetic process""",0.908, null, null,5.317,-4.883,0.658,0.88,48523, True
+GO:0009890," ""negative regulation of biosynthetic process""",0.914, null, null,5.32,-5.963,0.668,0.88,48523, True
+GO:0009892," ""negative regulation of metabolic process""",1.75, null, null,5.602,-9.548,0.658,0.91,48523, True
+GO:0031324," ""negative regulation of cellular metabolic process""",1.406, null, null,5.507,-9.336,0.653,0.924,48523, True
+GO:0010605," ""negative regulation of macromolecule metabolic process""",1.653, null, null,5.577,-8.818,0.651,0.95,48523, True
+GO:0045892," ""negative regulation of transcription  DNA-templated""",0.665, null, null,5.182,-3.356,0.661,0.958,48523, True
+GO:0051253," ""negative regulation of RNA metabolic process""",0.694, null, null,5.201,-3.386,0.664,0.973,48523, True
+GO:1902679," ""negative regulation of RNA biosynthetic process""",0.665, null, null,5.182,-3.307,0.662,0.984,48523, True
+GO:2000113," ""negative regulation of cellular macromolecule biosynthetic process""",0.88, null, null,5.304,-4.094,0.659,0.986,48523, True
+GO:0010558," ""negative regulation of macromolecule biosynthetic process""",0.882, null, null,5.305,-4.866,0.663,0.986,48523, True
+GO:1903507," ""negative regulation of nucleic acid-templated transcription""",0.665, null, null,5.182,-3.323,0.661,0.993,48523, True
+GO:0001817," ""regulation of cytokine production""",0.125,6.295,3.322,4.456,-3.142,0.771,0.324,-1, False
+GO:0001819," ""positive regulation of cytokine production""",0.079, null, null,4.254,-2.953,0.714,0.747,1817, True
+GO:1903555," ""regulation of tumor necrosis factor superfamily cytokine production""",0.024, null, null,3.734,-1.409,0.797,0.862,1817, True
+GO:0048519," ""negative regulation of biological process""",2.524,4.822,4.605,5.761,-9.719,0.762,0.325,-1, False
+GO:0051641," ""cellular localization""",2.368,-3.747,-4.755,5.733,-4.652,0.961,0.336,-1, False
+GO:1901564," ""organonitrogen compound metabolic process""",32.36,-4.337,2.383,6.869,-11.061,0.923,0.348,-1, False
+GO:0031329," ""regulation of cellular catabolic process""",0.311,5.518,3.104,4.852,-3.297,0.748,0.349,-1, False
+GO:0031331," ""positive regulation of cellular catabolic process""",0.205, null, null,4.671,-1.74,0.691,0.938,31329, True
+GO:0009896," ""positive regulation of catabolic process""",0.217, null, null,4.696,-1.741,0.694,0.943,31329, True
+GO:0009894," ""regulation of catabolic process""",0.358,5.94,3.56,4.913,-3.155,0.758,0.354,-1, False
+GO:0015031," ""protein transport""",2.726,-3.328,-5.06,5.795,-3.884,0.945,0.355,-1, False
+GO:0008104," ""protein localization""",3.007, null, null,5.837,-3.623,0.946,0.903,15031, True
+GO:0045184," ""establishment of protein localization""",2.814, null, null,5.808,-3.809,0.945,0.948,15031, True
+GO:0008214," ""protein dealkylation""",0.053,-0.821,8.188,4.083,-2.071,0.922,0.368,-1, False
+GO:0071706," ""tumor necrosis factor superfamily cytokine production""",0,-0.456,-0.858,1.978,-1.409,0.949,0.378,-1, False
+GO:0043412," ""macromolecule modification""",11.107,-2.273,6.688,6.405,-16.385,0.914,0.391,-1, False
+GO:0009059," ""macromolecule biosynthetic process""",11.377,-3.308,5.527,6.415,-13.684,0.888,0.394,-1, False
+GO:0010467," ""gene expression""",11.566,-2.446,6.873,6.422,-18.666,0.913,0.396,-1, False
+GO:0043620," ""regulation of DNA-templated transcription in response to stress""",0.021,5.87,1.056,3.684,-4.893,0.718,0.397,-1, False
+GO:0071705," ""nitrogen compound transport""",4.575,-3.733,-5.069,6.019,-3.209,0.966,0.404,-1, False
+GO:0033036," ""macromolecule localization""",3.582,-3.503,-5.208,5.913,-2.84,0.967,0.406,-1, False
+GO:0070076," ""histone lysine demethylation""",0.025,-1.135,1.891,3.749,-2.679,0.891,0.418,-1, False
+GO:0016577," ""histone demethylation""",0.025, null, null,3.763,-2.361,0.89,0.909,70076, True
+GO:0006482," ""protein demethylation""",0.053, null, null,4.083,-2.071,0.912,0.953,70076, True
+GO:0001816," ""cytokine production""",0.003,-0.874,-0.268,2.832,-2.985,0.942,0.422,-1, False
+GO:0006357," ""regulation of transcription by RNA polymerase II""",1.728,5.146,3.401,5.597,-9.83,0.703,0.425,-1, False
+GO:0006139," ""nucleobase-containing compound metabolic process""",18.964,-4.963,3.683,6.637,-21.409,0.887,0.427,-1, False
+GO:0044267," ""cellular protein metabolic process""",15.14,-3.092,4.508,6.539,-16.6,0.868,0.428,-1, False
+GO:0019222," ""regulation of metabolic process""",13.185,4.856,4.205,6.479,-15.474,0.708,0.429,-1, False
+GO:0051707," ""response to other organism""",0.596,5.724,-2.189,5.134,-4.963,0.864,0.434,-1, False
+GO:0071216," ""cellular response to biotic stimulus""",0.031, null, null,3.854,-1.703,0.883,0.758,51707, True
+GO:0032496," ""response to lipopolysaccharide""",0.036, null, null,3.913,-2.518,0.842,0.78,51707, True
+GO:0002237," ""response to molecule of bacterial origin""",0.042, null, null,3.984,-2.041,0.846,0.812,51707, True
+GO:0071396," ""cellular response to lipid""",0.129, null, null,4.47,-1.492,0.846,0.857,51707, True
+GO:0045087," ""innate immune response""",0.135, null, null,4.49,-1.994,0.817,0.868,51707, True
+GO:0071222," ""cellular response to lipopolysaccharide""",0.023, null, null,3.724,-1.996,0.839,0.953,51707, True
+GO:0071219," ""cellular response to molecule of bacterial origin""",0.025, null, null,3.75,-1.732,0.843,0.967,51707, True
+GO:0043207," ""response to external biotic stimulus""",0.596, null, null,5.135,-4.91,0.865,0.977,51707, True
+GO:0098542," ""defense response to other organism""",0.515, null, null,5.071,-1.916,0.799,0.98,51707, True
+GO:0009607," ""response to biotic stimulus""",0.65,6.506,-2.183,5.172,-4.81,0.903,0.438,-1, False
+GO:0071702," ""organic substance transport""",5.633,-3.545,-4.927,6.11,-1.583,0.965,0.453,-1, False
+GO:0019538," ""protein metabolic process""",19.817,-2.756,5.007,6.656,-14.672,0.895,0.467,-1, False
+GO:0032268," ""regulation of cellular protein metabolic process""",2.498,5.348,3.603,5.757,-8.037,0.675,0.471,-1, False
+GO:0032269," ""negative regulation of cellular protein metabolic process""",0.578, null, null,5.121,-5.48,0.658,0.806,32268, True
+GO:0031399," ""regulation of protein modification process""",0.673, null, null,5.187,-4.646,0.714,0.82,32268, True
+GO:0051248," ""negative regulation of protein metabolic process""",0.588, null, null,5.128,-5.717,0.663,0.832,32268, True
+GO:0045934," ""negative regulation of nucleobase-containing compound metabolic process""",0.749, null, null,5.233,-3.023,0.665,0.853,32268, True
+GO:0031400," ""negative regulation of protein modification process""",0.188, null, null,4.632,-4.297,0.683,0.893,32268, True
+GO:0006260," ""DNA replication""",1.525,-3.138,6.609,5.542,-2.286,0.896,0.482,-1, False
+GO:0032446," ""protein modification by small protein conjugation""",0.925,-1.6,7.491,5.325,-7.314,0.893,0.483,-1, False
+GO:0016567," ""protein ubiquitination""",0.833, null, null,5.28,-5.767,0.895,0.924,32446, True
+GO:0051246," ""regulation of protein metabolic process""",2.579,5.16,3.673,5.771,-8.607,0.702,0.497,-1, False
+GO:0070887," ""cellular response to chemical stimulus""",1.821,6.014,-2.274,5.619,-9.026,0.845,0.502,-1, False
+GO:1901700," ""response to oxygen-containing compound""",0.566, null, null,5.112,-3.773,0.867,0.716,70887, True
+GO:0071310," ""cellular response to organic substance""",0.683, null, null,5.193,-9.327,0.832,0.731,70887, True
+GO:0035966," ""response to topologically incorrect protein""",0.066, null, null,4.176,-1.866,0.856,0.741,70887, True
+GO:1901701," ""cellular response to oxygen-containing compound""",0.406, null, null,4.968,-2.391,0.853,0.75,70887, True
+GO:0010033," ""response to organic substance""",0.993, null, null,5.356,-6.516,0.861,0.763,70887, True
+GO:0071345," ""cellular response to cytokine stimulus""",0.159, null, null,4.56,-7.959,0.838,0.799,70887, True
+GO:0034097," ""response to cytokine""",0.171, null, null,4.593,-8.851,0.856,0.804,70887, True
+GO:0033993," ""response to lipid""",0.19, null, null,4.639,-3.148,0.855,0.812,70887, True
+GO:0019221," ""cytokine-mediated signaling pathway""",0.104, null, null,4.376,-3.886,0.684,0.955,70887, True
+GO:0006397," ""mRNA processing""",0.87,-3.933,5.865,5.298,-3.708,0.898,0.535,-1, False
+GO:0033554," ""cellular response to stress""",3.091,6.082,-2.003,5.849,-11.263,0.858,0.542,-1, False
+GO:0006952," ""defense response""",0.774, null, null,5.248,-2.508,0.884,0.709,33554, True
+GO:0006974," ""cellular response to DNA damage stimulus""",2.542, null, null,5.764,-3.613,0.859,0.827,33554, True
+GO:0016071," ""mRNA metabolic process""",1.124,-4.132,6.171,5.41,-5.42,0.898,0.551,-1, False
+GO:0006986," ""response to unfolded protein""",0.047,6.019,-2.497,4.028,-1.983,0.854,0.563,-1, False
+GO:0034620," ""cellular response to unfolded protein""",0.034, null, null,3.893,-1.692,0.848,0.936,6986, True
+GO:0035967," ""cellular response to topologically incorrect protein""",0.053, null, null,4.08,-1.633,0.844,0.962,6986, True
+GO:0016070," ""RNA metabolic process""",8.077,-4.166,4.982,6.266,-20.71,0.873,0.569,-1, False
+GO:0006914," ""autophagy""",0.217,-4.06,-2.788,4.695,-3.531,0.927,0.571,-1, False
+GO:1901362," ""organic cyclic compound biosynthetic process""",9.746,-5.196,5.013,6.348,-8.907,0.906,0.577,-1, False
+GO:0044249," ""cellular biosynthetic process""",23.054,-5.714,3.028,6.722,-12.215,0.9,0.578,-1, False
+GO:1901576," ""organic substance biosynthetic process""",23.584, null, null,6.732,-11.59,0.908,0.723,44249, True
+GO:0006468," ""protein phosphorylation""",4.24,-2.218,5.967,5.986,-2.822,0.868,0.58,-1, False
+GO:0006464," ""cellular protein modification process""",8.917, null, null,6.309,-14.469,0.86,0.789,6468, True
+GO:0036211," ""protein modification process""",8.917, null, null,6.309,-14.469,0.879,0.808,6468, True
+GO:0019438," ""aromatic compound biosynthetic process""",8.87,-5.411,4.554,6.307,-9.22,0.9,0.581,-1, False
+GO:0035556," ""intracellular signal transduction""",3.902,5.387,1.69,5.95,-6.169,0.642,0.585,-1, False
+GO:0018130," ""heterocycle biosynthetic process""",9.214,-5.418,4.401,6.324,-9.185,0.899,0.587,-1, False
+GO:0016310," ""phosphorylation""",7.82,-3.371,0.028,6.252,-4.108,0.94,0.591,-1, False
+GO:0006796," ""phosphate-containing compound metabolic process""",14.031, null, null,6.506,-1.671,0.933,0.738,16310, True
+GO:0022613," ""ribonucleoprotein complex biogenesis""",1.879,-0.822,-3.296,5.633,-1.417,0.96,0.61,-1, False
+GO:0031323," ""regulation of cellular metabolic process""",12.635,5.084,3.898,6.461,-17.804,0.64,0.614,-1, False
+GO:0051252," ""regulation of RNA metabolic process""",10.078, null, null,6.362,-13.378,0.638,0.806,31323, True
+GO:0019219," ""regulation of nucleobase-containing compound metabolic process""",10.21, null, null,6.368,-13.66,0.645,0.809,31323, True
+GO:2000112," ""regulation of cellular macromolecule biosynthetic process""",11.418, null, null,6.417,-11.611,0.636,0.83,31323, True
+GO:0009889," ""regulation of biosynthetic process""",11.506, null, null,6.42,-12.474,0.647,0.831,31323, True
+GO:0010468," ""regulation of gene expression""",11.879, null, null,6.434,-10.924,0.644,0.838,31323, True
+GO:0051171," ""regulation of nitrogen compound metabolic process""",12.433, null, null,6.454,-17.116,0.643,0.847,31323, True
+GO:0080090," ""regulation of primary metabolic process""",12.507, null, null,6.456,-16.184,0.643,0.848,31323, True
+GO:0060255," ""regulation of macromolecule metabolic process""",12.939, null, null,6.471,-15.527,0.641,0.855,31323, True
+GO:0010556," ""regulation of macromolecule biosynthetic process""",11.432, null, null,6.417,-12.631,0.64,0.882,31323, True
+GO:0031326," ""regulation of cellular biosynthetic process""",11.487, null, null,6.419,-11.423,0.636,0.883,31323, True
+GO:0006355," ""regulation of transcription  DNA-templated""",9.898, null, null,6.355,-10.618,0.635,0.889,31323, True
+GO:2001141," ""regulation of RNA biosynthetic process""",9.906, null, null,6.355,-10.777,0.636,0.892,31323, True
+GO:1903506," ""regulation of nucleic acid-templated transcription""",9.898, null, null,6.355,-10.587,0.636,0.901,31323, True
+GO:0044271," ""cellular nitrogen compound biosynthetic process""",14.482,-4.925,4.069,6.52,-9.521,0.886,0.619,-1, False
+GO:0001959," ""regulation of cytokine-mediated signaling pathway""",0.025,3.702,6.419,3.759,-3.127,0.776,0.625,-1, False
+GO:0001961," ""positive regulation of cytokine-mediated signaling pathway""",0.009, null, null,3.29,-1.808,0.741,0.932,1959, True
+GO:0060338," ""regulation of type I interferon-mediated signaling pathway""",0.009, null, null,3.292,-3.199,0.769,0.932,1959, True
+GO:0060760," ""positive regulation of response to cytokine stimulus""",0.01, null, null,3.338,-2.695,0.744,0.938,1959, True
+GO:0060759," ""regulation of response to cytokine stimulus""",0.027,3.682,6.625,3.785,-3.661,0.789,0.628,-1, False
+GO:0034645," ""cellular macromolecule biosynthetic process""",11.134,-3.68,4.723,6.406,-12.996,0.859,0.631,-1, False
+GO:0035458," ""cellular response to interferon-beta""",0.004,5.937,-2.795,2.941,-1.909,0.872,0.633,-1, False
+GO:0008380," ""RNA splicing""",0.61,-3.977,6.033,5.145,-1.6,0.902,0.64,-1, False
+GO:0002366," ""leukocyte activation involved in immune response""",0.028,4.967,-2.634,3.81,-1.97,0.854,0.642,-1, False
+GO:0046631," ""alpha-beta T cell activation""",0.012, null, null,3.452,-1.711,0.92,0.818,2366, True
+GO:0002263," ""cell activation involved in immune response""",0.029, null, null,3.821,-1.87,0.855,0.893,2366, True
+GO:0046649," ""lymphocyte activation""",0.067, null, null,4.188,-1.301,0.912,0.908,2366, True
+GO:0002285," ""lymphocyte activation involved in immune response""",0.018, null, null,3.618,-2.068,0.858,0.97,2366, True
+GO:0006396," ""RNA processing""",3.789,-3.9,5.163,5.938,-7.396,0.878,0.644,-1, False
+GO:0060337," ""type I interferon signaling pathway""",0.002,5.486,-0.32,2.736,-4.801,0.696,0.646,-1, False
+GO:0071357," ""cellular response to type I interferon""",0.003, null, null,2.833,-4.516,0.813,0.954,60337, True
+GO:0045088," ""regulation of innate immune response""",0.044,3.887,6.473,4.002,-7.091,0.759,0.651,-1, False
+GO:0080135," ""regulation of cellular response to stress""",0.182, null, null,4.619,-3.613,0.744,0.806,45088, True
+GO:0032103," ""positive regulation of response to external stimulus""",0.08, null, null,4.261,-1.653,0.708,0.827,45088, True
+GO:0050776," ""regulation of immune response""",0.182, null, null,4.618,-1.657,0.747,0.831,45088, True
+GO:0031349," ""positive regulation of defense response""",0.048, null, null,4.044,-2.355,0.714,0.86,45088, True
+GO:0031347," ""regulation of defense response""",0.134, null, null,4.485,-2.769,0.755,0.876,45088, True
+GO:0045089," ""positive regulation of innate immune response""",0.027, null, null,3.785,-3.532,0.717,0.889,45088, True
+GO:0045824," ""negative regulation of innate immune response""",0.014, null, null,3.508,-1.949,0.725,0.904,45088, True
+GO:0002833," ""positive regulation of response to biotic stimulus""",0.036, null, null,3.912,-5.291,0.72,0.906,45088, True
+GO:0002684," ""positive regulation of immune system process""",0.16, null, null,4.563,-1.614,0.726,0.915,45088, True
+GO:0002218," ""activation of innate immune response""",0.012, null, null,3.432,-3.22,0.675,0.919,45088, True
+GO:0090304," ""nucleic acid metabolic process""",13.823,-4.191,4.508,6.5,-23.078,0.867,0.653,-1, False
+GO:1903320," ""regulation of protein modification by small protein conjugation or removal""",0.075,6.12,2.994,4.234,-2.064,0.756,0.655,-1, False
+GO:0032774," ""RNA biosynthetic process""",2.234,-4.118,5.584,5.708,-10.975,0.875,0.655,-1, False
+GO:0048869," ""cellular developmental process""",1.041,1.961,-3.822,5.376,-1.332,0.964,0.671,-1, False
+GO:0034340," ""response to type I interferon""",0.004,5.403,-2.602,2.996,-3.866,0.817,0.671,-1, False
+GO:0034654," ""nucleobase-containing compound biosynthetic process""",6.681,-4.871,4.628,6.184,-9.873,0.885,0.678,-1, False
+GO:0051276," ""chromosome organization""",2.083,-0.768,-3.058,5.678,-4.033,0.952,0.683,-1, False
+GO:0002831," ""regulation of response to biotic stimulus""",0.082,3.954,6.246,4.274,-5.747,0.772,0.683,-1, False
+GO:0030163," ""protein catabolic process""",1.027,-1.499,6.754,5.371,-4.175,0.878,0.685,-1, False
+GO:0051603," ""proteolysis involved in cellular protein catabolic process""",0.841, null, null,5.284,-3.208,0.864,0.797,30163, True
+GO:0043632," ""modification-dependent macromolecule catabolic process""",0.715, null, null,5.214,-1.52,0.88,0.848,30163, True
+GO:0044265," ""cellular macromolecule catabolic process""",1.526, null, null,5.543,-3.932,0.871,0.851,30163, True
+GO:0044257," ""cellular protein catabolic process""",0.85, null, null,5.288,-2.926,0.864,0.949,30163, True
+GO:0006511," ""ubiquitin-dependent protein catabolic process""",0.662, null, null,5.18,-1.664,0.867,0.965,30163, True
+GO:0019941," ""modification-dependent protein catabolic process""",0.704, null, null,5.206,-1.709,0.866,0.984,30163, True
+GO:0006325," ""chromatin organization""",0.761,-0.55,-3.004,5.24,-3.654,0.951,0.69,-1, False
+GO:0016569," ""covalent chromatin modification""",0.406, null, null,4.968,-2.813,0.888,0.73,6325, True
+GO:0006338," ""chromatin remodeling""",0.163, null, null,4.57,-1.758,0.953,0.812,6325, True
+GO:0016570," ""histone modification""",0.405, null, null,4.967,-2.448,0.869,0.879,6325, True
