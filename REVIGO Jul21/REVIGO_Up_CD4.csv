@@ -1,6 +1,0 @@
-TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
-GO:0001666," ""response to hypoxia""",0.03877391,-5.614378826,-2.7385767,3.94767874,-1.382343185,1,0, null, False
-GO:0006996," ""organelle organization""",4.278607339,5.358917652,2.29092698,5.990393027,-1.423519721,1,0, null, False
-GO:0008104," ""protein localization""",3.007353264,2.387016787,-5.710521369,5.837275229,-1.384179741,1,0, null, False
-GO:1903109," ""positive regulation of mitochondrial transcription""",0.000371817,-2.642525811,5.262869748,1.934498451,-2.565662675,0.649640811,0, null, False
-GO:1903108," ""regulation of mitochondrial transcription""",0.002379626, null, null,2.736396502,-1.57294145,0.649640811,0.77598806,1903109, True

@@ -1,4 +1,0 @@
-TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
-GO:0006281," ""DNA repair""",2.380474852,0.976195251,0.438352297,5.735754547,-2.416636044,0.036312424,0, null, False
-GO:0006310," ""DNA recombination""",1.721992029, null, null,5.595122391,-1.581729989,0.408177174,0.70956578,6281, True
-GO:0006974," ""cellular response to DNA damage stimulus""",2.541611417, null, null,5.764200052,-2.144395932,0.290533313,0.90931784,6281, True

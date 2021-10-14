@@ -1,7 +1,0 @@
-TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
-GO:0007399," ""nervous system development""",0.548490724,5.103926108,-0.041939453,5.098262902,-2.024944375,1,0, null, False
-GO:0030030," ""cell projection organization""",0.664156307,-5.4545878,-0.011982378,5.181363313,-2.168314536,0.439634039,0, null, False
-GO:0034330," ""cell junction organization""",0.103430629,-4.485747267,1.707267828,4.373757685,-1.667085511,0.489314908,0.40331975, null, False
-GO:0120036," ""plasma membrane bounded cell projection organization""",0.353689446,-4.488269813,-1.389580192,4.907717624,-1.951446413,0.255805879,0.44984316, null, False
-GO:0060271," ""cilium assembly""",0.138731335, null, null,4.501278409,-1.793361504,0.260550287,0.81491178,120036, True
-GO:0044782," ""cilium organization""",0.157278421, null, null,4.555771372,-1.835585009,0.257226696,0.86297128,120036, True

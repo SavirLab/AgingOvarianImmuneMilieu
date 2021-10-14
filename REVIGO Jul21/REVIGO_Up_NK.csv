@@ -1,5 +1,0 @@
-TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
-GO:0006996," ""organelle organization""",4.278607339,4.021346553,4.142717131,5.990393027,-1.503264472,0.550527181,0, null, False
-GO:0016043," ""cellular component organization""",7.490472856, null, null,6.23359964,-2.050203118,0.549545513,0.75640942,6996, True
-GO:0048518," ""positive regulation of biological process""",2.157892313,-5.598371553,1.411229707,5.6931208,-2.001515419,1,0, null, False
-GO:0071840," ""cellular component organization or biogenesis""",9.15439588,1.577025,-5.553946838,6.320720048,-1.663704689,0.975277734,0.01766501, null, False
