@@ -1,0 +1,8 @@
+TermID, Name, Frequency, PlotX, PlotY, LogSize, Value, Uniqueness, Dispensability, Representative, Eliminated
+GO:0034613," ""cellular protein localization""",1.587866846,-1.790748329,-5.814402693,5.559905429,-1.436923958,0.717066608,0, null, False
+GO:0070727," ""cellular macromolecule localization""",1.597744044, null, null,5.562598548,-1.378208806,0.717054581,0.88281127,34613, True
+GO:0044093," ""positive regulation of molecular function""",0.460475174,-5.635584337,2.884380334,5.022300497,-2.501085714,0.919572987,0, null, False
+GO:1901135," ""carbohydrate derivative metabolic process""",7.137299578,4.579931167,-3.207999432,6.212624344,-1.574307643,0.940326084,0, null, False
+GO:0044237," ""cellular metabolic process""",51.4774745,4.664583761,3.252061974,7.07070742,-1.312026182,0.908958686,0.1058278, null, False
+GO:0006796," ""phosphate-containing compound metabolic process""",14.03133049,1.152165542,6.714125485,6.506189141,-1.350027304,0.921254776,0.13304918, null, False
+GO:0065009," ""regulation of molecular function""",2.070147969,-5.920001876,0.448150999,5.675092458,-1.948414788,0.919572987,0.2463379, null, False
