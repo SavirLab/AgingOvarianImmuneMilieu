@@ -29,7 +29,7 @@ for age=1:2 % for each sample
         mitoFrction{age}(cell) = sum(data_both{age}(mitoGenes,cell))/sum(data_both{age}(:,cell)); % mitochondrial genes fraction
     end
     
-    % We are using the following cutoffs: no less than 200 and no more than 2500 features & less than 10% mitochondrial genes
+    % We are using the following ss: no less than 200 and no more than 2500 features & less than 10% mitochondrial genes
     data_reduced_ind{age} = find(nFeatures{age}>200 & nFeatures{age}<2500 & mitoFrction{age}<0.1); %which cells are ok
     data_reduced{age} = data_both{age}(:,data_reduced_ind{age}); % filtered data
 end
@@ -159,13 +159,13 @@ all_cluster(all_cluster==10) = 7;
 %%%%%%%%%%%%%%%%%%
 %   Figure 1B    %
 %%%%%%%%%%%%%%%%%%
-
 num_clst = max(all_cluster);
 
 figure(3);
-for clst =1:13%num_clst
-scatter(all_tSNE(all_cluster==clst,1),all_tSNE(all_cluster==clst,2),5,color(clst,:),'o','filled'); hold on 
+for clst = 1:num_clst
+scatter(all_tSNE(all_cluster==clst,1),all_tSNE(all_cluster==clst,2),5,color(clst,:),'o','filled'); hold on  %
 end
+
 
 %% Violin plot for cluster identification
 
@@ -228,9 +228,9 @@ for cnt_gene = 1:length(violin_markers)
     end
     
     top_value(cnt_gene) = round(max(max_data_plot(cnt_gene,:)),1);
-    set(gca,'xtick',[1:13],'xticklabels',[])
+    set(gca,'xtick',[1:14],'xticklabels',[])
     set(gca,'ytick',[0 top_value(cnt_gene)],'yticklabels',[]);
-    xlim([0 13.5])
+    xlim([0 14.5])
     ylabel(marker_name{cnt_gene})
 end
 
@@ -349,6 +349,15 @@ for age=1:2
     fractions(clst+1,age) = 100-sum(fractions(1:clst,age));
     poptype_num(13,age) = round((fractions(clst+1,age)/100)*sum(age_num==age)); 
 
+        for clst=1:size(poptype_10X_R,1)
+        clust_numbers(clst,age) = length(poptype_10X_R{clst,age});
+        if isempty(fractions(clst,age))
+            clust_numbers(clst,age) =0;
+        end
+    end
+    clust_numbers(clst+1,age) = sum(age_num==age)-sum(clust_numbers(1:clst,age));
+    
+    
 end
 cell_type_2clust{13} = 'Others';
 
@@ -426,6 +435,7 @@ Macs_violin(Macs_violin==0) = NaN;
 Lymph_violin(Lymph_violin==0) = NaN;
 
 cats = ({'Young','Adult','Old'});
+cats = ({'Macrophages','CD3 lymphocytes'});
 
 for age = 1:3
     for stage = 1:4
@@ -438,8 +448,8 @@ figure(9);
 violins_macs = violinplot(Macs_violin, cats,'ViolinColor',[.3 .6 0],'Width',0.1,'ShowMean',true); hold on 
 violins_lymph = violinplot(Lymph_violin, cats, 'ViolinColor',[1 .7 .4],'Width',0.1,'ShowMean',true); 
 % run to add cycle stages:
-plot(1:3,Macs_mean,'color',[.3 .6 0],'LineWidth',1.5)
-plot(1:3,lymph_mean,'color',[1 .7 .4],'LineWidth',1.5)
+% plot(1:3,Macs_mean,'color',[.3 .6 0],'LineWidth',1.5)
+% plot(1:3,lymph_mean,'color',[1 .7 .4],'LineWidth',1.5)
 %
 
 Young_sample = find(cells_all(:,4)==1);
@@ -544,7 +554,16 @@ for clst = 1:size(poptype_10X_R,1)
     % significant DEGs (t-test)
     for gene = 1:length(expressed_genes_joint)
         [PValues{clst}(gene), TScores{clst}(gene)] = mattest(old{clst}(gene,:),young{clst}(gene,:),'VarType','unequal');
+                
     end
+    
+    
+    % Calculating Qvalue (FDR)
+    [fdr,Q] = mafdr(PValues{clst});
+    ind_01 = find(Q>0.1);
+    Q(ind_01) = floor(100*Q(ind_01))/100;
+    Qvalues(:, clst) = Q.';
+    
     
     % Fraction diff
     frc_young{clst} = (sum(young{clst}>0,2)/size(young{clst},2))*100;
@@ -563,14 +582,16 @@ for clst = 1:size(poptype_10X_R,1)
     expression_FC{clst} = expression_level{clst,2}./expression_level{clst,1}; % mean(Old)/mean(Young)
     
     % Up or Downregulated?
-    sig_up{clst} = intersect(find(PValues{clst}<=.05),find(log2(expression_FC{clst})>=1));
+    sig_up{clst} = intersect(intersect(find(PValues{clst}<=.05),find(Qvalues(:,clst)<=.1)),find(log2(expression_FC{clst})>=1));
     sig_up_name{clst} = name_joint(sig_up{clst});
     sig_up_FC{clst} = expression_FC{clst}(sig_up{clst});
     sig_up_pval{clst}(:,1) = PValues{clst}(sig_up{clst});
-    sig_down{clst} = intersect(find(PValues{clst}<=.05),find(log2(expression_FC{clst})<=-1));
+    sig_up_Qval{clst}(:,1) = Qvalues(sig_up{clst},clst);
+    sig_down{clst} = intersect(intersect(find(PValues{clst}<=.05),find(Qvalues(:,clst)<=.1)),find(log2(expression_FC{clst})<=-1));
     sig_down_name{clst} = name_joint(sig_down{clst});
     sig_down_FC{clst} = expression_FC{clst}(sig_down{clst});
     sig_down_pval{clst}(:,1) = PValues{clst}(sig_down{clst});
+    sig_down_Qval{clst}(:,1) = Qvalues(sig_down{clst},clst);
     
     % expression proportion change (chi-square)
     expression_fraction{clst,1} = 100*(sum(young{clst}>0,2)./size(young{clst},2));
@@ -581,7 +602,7 @@ end
 
 %%
 %%%%%%%%%%%%%%%%%%
-%    Figure 2A    %
+%    Figure 3A    %
 %%%%%%%%%%%%%%%%%%
 
 ind_Ifngr1 = find(strcmp('Ifngr1',name_joint)); % NT, Macs
@@ -596,10 +617,10 @@ ind_Cxcl10 = find(strcmp('Cxcl10',name_joint)); % NT, Macs, DNT
 ind_Csf2rb = find(strcmp('Csf2rb',name_joint)); % NT
 ind_Vegfa = find(strcmp('Vegfa',name_joint)); % NT, Macs
 
-red_dots{1} = [ind_Ifngr1 ind_Anxa1 ind_Tgfbr1 ind_Cxcl2 ind_Cxcr6 ind_Il1a...
-    ind_Il1b ind_Ptgs2 ind_Cxcl10 ind_Csf2rb ind_Vegfa];
-red_dots_names{1} = {'Ifngr1','Anxa1','Tgfbr1','Cxcl2','Cxcr6','Il1a','Il1b',...
-    'Ptgs2','Cxcl10','Csf2rb','Vegfa'};
+red_dots{1} = [ind_Ifngr1 ind_Tgfbr1 ind_Cxcl2  ind_Il1a...
+    ind_Il1b ind_Csf2rb];
+red_dots_names{1} = {'Ifngr1','Tgfbr1','Cxcl2','Il1a','Il1b',...
+    'Csf2rb'};
 
 ind_Il2ra = find(strcmp('Il2ra',name_joint)); % Macs
 ind_F11r = find(strcmp('F11r',name_joint)); % Macs
@@ -611,78 +632,96 @@ ind_Hif1a = find(strcmp('Hif1a',name_joint)); % Macs
 ind_Vcam1 = find(strcmp('Vcam1',name_joint)); % Macs
 ind_Cd274 = find(strcmp('Cd274',name_joint)); % Macs
 ind_Tnf = find(strcmp('Tnf',name_joint)); % Macs
+ind_Ccl4 = find(strcmp('Ccl4',name_joint)); % Macs
+ind_Inhba = find(strcmp('Inhba',name_joint)); % Macs
 
-red_dots{2} = [ind_Ifngr1 ind_Cxcl2 ind_Cxcl10 ind_Il2ra ind_F11r...
-    ind_Gata3 ind_Mrc1 ind_F10 ind_Igf1 ind_Hif1a ind_Vcam1 ind_Cd274 ind_Tnf];
-red_dots_names{2} = {'Ifngr1','Cxcl2','Cxcl10','Il2ra','F11r','Gata3','Mrc1',...
-    'F10','Igf1','Hif1a','Vcam1','Cd274','Tnf'};
+red_dots{2} = [ind_Ifngr1 ind_Cxcl2 ind_Cxcl10 ind_Il2ra ...
+           ind_Tnf ind_Ccl4 ind_Inhba];
+red_dots_names{2} = {'Ifngr1','Cxcl2','Cxcl10','Il2ra','Tnf',...
+    'Ccl4','Inhba'};
 
 ind_Cd81 = find(strcmp('Cd81',name_joint)); % DC
 ind_F2r = find(strcmp('F2r',name_joint)); % DC
 ind_Ccr5 = find(strcmp('Ccr5',name_joint)); % DC, ILC1
 ind_Cxcl16 = find(strcmp('Cxcl16',name_joint)); % DC
 ind_Stat1 = find(strcmp('Stat1',name_joint)); % DC,NK,ILC1
+ind_Ccl3 = find(strcmp('Ccl3',name_joint)); % DC,NK,ILC1
 
-red_dots{3} = [ind_Cd81 ind_Cxcl2 ind_F2r ind_Ccr5 ind_Cxcl16 ind_Stat1];
-red_dots_names{3} = {'Cd81','Cxcl2','F2r','Ccr5','Cxcl16','Stat1'};
+red_dots{3} = [ind_Cxcl2 ind_Ccr5 ind_Cxcl16 ind_Ccl4 ind_Ccl3];
+red_dots_names{3} = {'Cxcl2','Ccr5','Cxcl16','Ccl4','Ccl3'};
 
 ind_Stat4 = find(strcmp('Stat4',name_joint)); % NK
 ind_Icam1 = find(strcmp('Icam1',name_joint)); % NK
 ind_Ccl3 = find(strcmp('Ccl3',name_joint)); % NK
 
-red_dots{4} = [ind_Stat4 ind_Cxcl2 ind_Icam1 ind_Ccl3 ind_Stat1];
-red_dots_names{4} = {'Stat4','Cxcl2','Icam1','Ccl3','Stat1'};
+red_dots{4} = [ind_Cxcl2 ind_Ccl3];
+red_dots_names{4} = {'Cxcl2','Ccl3'};
 
-red_dots{5} = [ind_Cxcl2 ind_Il1b ind_Ccr5 ind_Stat1];
-red_dots_names{5} = {'Cxcl2','Il1b','Ccr5','Stat1'};
+ind_Cxcr4 = find(strcmp('Cxcr4',name_joint)); % NK
+ind_Ccl7 = find(strcmp('Ccl7',name_joint)); % NK
+ind_Ccl9 = find(strcmp('Ccl9',name_joint)); % NK
+
+red_dots{5} = [ind_Cxcl2 ind_Il1b ind_Ccr5 ind_Tgfbr1 ind_Cxcr4 ind_Ccl7];
+red_dots_names{5} = {'Cxcl2','Il1b','Ccr5','Tgfbr1','Cxcr4','Ccl7'};
 
 ind_Ccl5 = find(strcmp('Ccl5',name_joint)); % NKT, ILC2
 ind_Fcer1g = find(strcmp('Fcer1g',name_joint)); % NKT
 ind_Mmp9 = find(strcmp('Mmp9',name_joint)); % NKT
+ind_Il2 = find(strcmp('Il2',name_joint)); % NKT
 
-red_dots{6} = [ind_Cxcl2 ind_Il1b ind_Ccl5 ind_Fcer1g ind_Mmp9];
-red_dots_names{6} = {'Cxcl2','Il1b','Ccl5','Fcer1g','Mmp9'};
+red_dots{6} = [ind_Cxcl2 ind_Il1b ind_Ccl5];
+red_dots_names{6} = {'Cxcl2','Il1b','Ccl5'};
 
 ind_Ly6c2 = find(strcmp('Ly6c2',name_joint)); % CD8, CD4
+ind_Ccr2 = find(strcmp('Ccr2',name_joint)); % NKT, ILC2
 
-red_dots{7} = [ind_Cxcl2 ind_Ly6c2];
-red_dots_names{7} = {'Cxcl2','Ly6c2'};
+red_dots{7} = [ind_Cxcl2 ind_Il1b ];
+red_dots_names{7} = {'Cxcl2','Il1b'};
 
 ind_Icam2 = find(strcmp('Icam2',name_joint)); % CD4, ILC2
+ind_Ccr6 = find(strcmp('Ccr6',name_joint)); % NKT, ILC2
 
-red_dots{8} = [ind_Cxcl2 ind_Ly6c2 ind_Icam2];
-red_dots_names{8} = {'Cxcl2','Ly6c2','Icam2'};
+red_dots{8} = [ind_Cxcl2];
+red_dots_names{8} = {'Cxcl2'};
 
 ind_Mmp16 = find(strcmp('Mmp16',name_joint)); % DNT
 ind_Ccl4 = find(strcmp('Ccl4',name_joint)); % DNT,B
+ind_Cxcl10 = find(strcmp('Cxcl10',name_joint)); % DNT,B
+ind_Il1r1 = find(strcmp('Il1r1',name_joint)); % DNT,B
+ind_Tgfbr2 = find(strcmp('Tgfbr2',name_joint)); % DNT,B
 
-red_dots{9} = [ind_Cxcl2 ind_Mmp16 ind_Ccl4];
-red_dots_names{9} = {'Cxcl2','Mmp16','Ccl4'};
+red_dots{9} = [ind_Cxcl2 ind_Ccl4 ind_Ccl3 ind_Cxcl10 ind_Il1b...
+    ind_Ccr6 ind_Il1r1 ind_Tgfbr2];
+red_dots_names{9} = {'Cxcl2','Ccl4','Ccl3','Cxcl10','Il1b',...
+    'Ccr6','Il1r1','Tgfbr2'};
 
 ind_Iglc2 = find(strcmp('Iglc2',name_joint)); % B
 
-red_dots{10} = [ind_Cxcl2 ind_Ccl4 ind_Iglc2];
-red_dots_names{10} = {'Cxcl2','Ccl4','Iglc2'};
+red_dots{10} = [ind_Cxcl2];
+red_dots_names{10} = {'Cxcl2'};
 
 ind_Il10rb = find(strcmp('Il10rb',name_joint)); % ILC2
 ind_Ccr2 = find(strcmp('Ccr2',name_joint)); % ILC2
 
-red_dots{11} = [ind_Il10rb ind_Ccr2 ind_Icam2 ind_Ccl5];
-red_dots_names{11} = {'Il10rb','Ccr2','Icam2','Ccl5'};
+red_dots{11} = [ind_Ccr2 ind_Ccl5];
+red_dots_names{11} = {'Ccr2','Ccl5'};
 
 ind_Xcl1 = find(strcmp('Xcl1',name_joint)); % ILC3
 ind_Il7r = find(strcmp('Il7r',name_joint)); % ILC3
 ind_Ccr6 = find(strcmp('Ccr6',name_joint)); % ILC3
 ind_Prdx2 = find(strcmp('Prdx2',name_joint)); % ILC3
 
-red_dots{12} = [ind_Xcl1 ind_Il7r ind_Ccr6 ind_Prdx2 ind_Cxcl2];
-red_dots_names{12} = {'Xcl1','Il7r','Ccr6','Prdx2','Cxcl2'};
+red_dots{12} = [ind_Il7r ind_Ccr6];
+red_dots_names{12} = {'Il7r','Ccr6'};
 
-
+%%
+close all
+q_line_01 = [0.005 0.022 0.066 0.005 0.040 0.013 0.018 0.006 0.057 0.0007 0.0075 0.0008];
 for clst = 1:size(poptype_10X_R,1)
    x = log2(expression_FC{clst});
    y = -log10(PValues{clst});
-    
+   z=-log10(q_line_01(clst));
+   
    figure(11+clst);
    scatter(x,y,8,[.6 .6 .6],'o','filled'); hold on
    scatter(x(red_dots{clst}),y(red_dots{clst})',10,'ro','filled');
@@ -690,6 +729,7 @@ for clst = 1:size(poptype_10X_R,1)
    line([1 1],[min(y)-0.5 max(y)+0.5],'LineStyle','--')
    line([-1 -1],[min(y)-0.5 max(y)+0.5],'LineStyle','--')
    line([min(x(x>-Inf))-0.5 max(x(x<Inf))+0.5],[0.585 0.585],'LineStyle','--')
+   line([min(x(x>-Inf))-0.5 max(x(x<Inf))+0.5],[z z],'color','red','LineStyle','--')
    ylim([0 max(y)+0.5])
    xlim([-6 6])
    title(cell_type_2clust{clst})
@@ -697,87 +737,25 @@ end
     
 %% 
 %%%%%%%%%%%%%%%%%%
-%    Figure 2B   %
+%    Figure 3B   %
 %%%%%%%%%%%%%%%%%%
 
-REVIGO_down_name = {'NT','Macs','DC','NK','ILC1','NKT','CD8','CD4','DNT','B','ILC2','ILC3'};
-dir = [pwd '\REVIGO\'];
-k=2;
-total_GO_list = {'GO term'};
+[~,txt_REVIGO_common_down,raw_REVIGO_common_down] = xlsread([pwd '\REVIGO_Down_Common.xlsx']);
 
-for clst = 1:length(REVIGO_down_name)
-    [~,txt_REVIGO_down{clst},raw_REVIGO_down{clst}] = xlsread([dir 'REVIGO_Down_' REVIGO_down_name{clst} '.csv']);
-    for go = 2:size(raw_REVIGO_down{clst},1)
-        if raw_REVIGO_down{clst}{go,11} == 0
-            flg=0;
-            for i=1:size(total_GO_list,1)
-                if contains(raw_REVIGO_down{clst}{go,1},total_GO_list{i,1})
-                    flg=1;
-                end
-            end
-            if flg == 0   
-                total_GO_list(k,1) = raw_REVIGO_down{clst}(go,1);
-                total_GO_list(k,2) = raw_REVIGO_down{clst}(go,2);
-                k=k+1;
-            end
-        end
-    end
-end
-
-total_GO_list(1,3:length(REVIGO_down_name)+2) = REVIGO_down_name;
-for term = 2:size(total_GO_list,1)
-    n=1;
-    for clst = 1:length(REVIGO_down_name)
-        for i = 2:size(raw_REVIGO_down{clst},1)
-            if contains(total_GO_list{term,1},raw_REVIGO_down{clst}{i,1})
-                total_GO_list{term,clst+2} = 1;
-                total_GO_list{term,12} = n;
-                n=n+1;
-            end
-        end
-    end
-end
-
-for r = 1:size(total_GO_list,1)
-    for c = 1:size(total_GO_list,2)
-      if isempty(total_GO_list{r,c})
-          total_GO_list{r,c} = 0;
-      end
-    end
-end
-
-
-[~,txt_REVIGO_common_down,raw_REVIGO_common_down] = xlsread([dir 'REVIGO_Down_Common.csv']);
+close all
 figure(24)
 for i=2:size(raw_REVIGO_common_down,1)
-    if isnumeric(raw_REVIGO_common_down{i,4})
-        scatter(raw_REVIGO_common_down{i,4},raw_REVIGO_common_down{i,5},3^raw_REVIGO_common_down{i,6},raw_REVIGO_common_down{i,7},...
+    if isnumeric(raw_REVIGO_common_down{i,8})
+        scatter(raw_REVIGO_common_down{i,8},raw_REVIGO_common_down{i,9},2.6^raw_REVIGO_common_down{i,4},raw_REVIGO_common_down{i,3},...
             'o','filled','MarkerEdgeColor',[0 0 0]); hold on
     end
 end
-
-for go = 2:size(total_GO_list,1)
-    for clst  = 1:length(REVIGO_down_name)
-        if total_GO_list{go,clst+2} == 1 && total_GO_list{go,end} == 1
-            for row = 1:size(raw_REVIGO_down{clst},1)
-                if cell2mat(strfind(raw_REVIGO_down{clst}(row,1),total_GO_list{go,1}))
-                    raw_REVIGO_down{clst}{row,12} = 1;
-                end
-            end
-        elseif total_GO_list{go,clst+2} == 1 && total_GO_list{go,end} > 1
-            for row = 1:size(raw_REVIGO_down{clst},1)
-                if cell2mat(strfind(raw_REVIGO_down{clst}(row,1),total_GO_list{go,1}))
-                    raw_REVIGO_down{clst}{row,12} = 0;
-                end
-            end
-        end
-    end
-end
-
+h = gca;
+h.XAxis.Visible = 'off'; h.YAxis.Visible = 'off';
 
 
 %% Finding Cytokines and Chemokines 
-chemokines_prefix = {'Ccl','Cxcl','Cx3cl','Xcl','Xcr','Ackr','Ccr','Cxcr','Cx3cr'};
+chemokines_prefix = {'Ccl','Ccrl','Cxcl','Cx3cl','Xcl','Xcr','Ackr','Ccr','Cxcr','Cx3cr'};
 ind=1;
 for prefix = 1:length(chemokines_prefix)
 chemokines_ind = find(startsWith(name_joint,chemokines_prefix{prefix}));
@@ -805,11 +783,12 @@ not_cyto = [21,23,24,26:30,41,45,57,59,66,74,84,86,87,92,101,113,119,121,124,...
 
 cytokines(not_cyto) = [];
 cytokines_idx(not_cyto) = [];
-
+close all
 %%
 %%%%%%%%%%%%%%%%%%
 %    Figure 4A   %
 %%%%%%%%%%%%%%%%%%
+qnum = Qvalues;
 
 clear l
 clear r
@@ -824,26 +803,27 @@ clear chemokines_map_Old
 clear chemokines_map_h
 clear ligands
 clear receptors
+clear chemokines_map
 
 for clst=1:12
     for gene = 1:length(chemokines)
         FC = mean(old{clst}(chemokines_idx(gene),:),2)/mean(young{clst}(chemokines_idx(gene),:),2);
        if  PValues{clst}(chemokines_idx(gene))<.05 && FC>=2 && FC<Inf
-           if -log10(PValues{clst}(chemokines_idx(gene)))<=3
+           if -log10(qnum(chemokines_idx(gene),clst))>=1 && -log10(qnum(chemokines_idx(gene),clst))<2 %-log10(PValues{clst}(chemokines_idx(gene)))<=3
                chemokines_map(clst,gene) = 1;
-           elseif -log10(PValues{clst}(chemokines_idx(gene)))>3 && -log10(PValues{clst}(chemokines_idx(gene)))<=6
+           elseif -log10(qnum(chemokines_idx(gene),clst))>=2 && -log10(qnum(chemokines_idx(gene),clst))<3 %-log10(PValues{clst}(chemokines_idx(gene)))>3 && -log10(PValues{clst}(chemokines_idx(gene)))<=6
                chemokines_map(clst,gene) = 2;
-           elseif -log10(PValues{clst}(chemokines_idx(gene)))>6
+           elseif -log10(qnum(chemokines_idx(gene),clst))>=3 %-log10(PValues{clst}(chemokines_idx(gene)))>6
                chemokines_map(clst,gene) = 3;
            end
        elseif PValues{clst}(chemokines_idx(gene))<.05 && FC<=.5 && FC>0
-           if -log10(PValues{clst}(chemokines_idx(gene)))<=3
+           if -log10(qnum(chemokines_idx(gene),clst))>=1 && -log10(qnum(chemokines_idx(gene),clst))<2 %-log10(PValues{clst}(chemokines_idx(gene)))<=3
                chemokines_map(clst,gene) = -1;
-           elseif -log10(PValues{clst}(chemokines_idx(gene)))>3 && -log10(PValues{clst}(chemokines_idx(gene)))<=6
+           elseif -log10(qnum(chemokines_idx(gene),clst))>=2 && -log10(qnum(chemokines_idx(gene),clst))<3 %-log10(PValues{clst}(chemokines_idx(gene)))>3 && -log10(PValues{clst}(chemokines_idx(gene)))<=6
                chemokines_map(clst,gene) = -2;
-           elseif -log10(PValues{clst}(chemokines_idx(gene)))>6 && -log10(PValues{clst}(chemokines_idx(gene)))<=9
+           elseif -log10(qnum(chemokines_idx(gene),clst))>=3 && -log10(qnum(chemokines_idx(gene),clst))<4 %-log10(PValues{clst}(chemokines_idx(gene)))>6 && -log10(PValues{clst}(chemokines_idx(gene)))<=9
                chemokines_map(clst,gene) = -3;
-           elseif -log10(PValues{clst}(chemokines_idx(gene)))>9
+           elseif -log10(qnum(chemokines_idx(gene),clst))>=4 %-log10(PValues{clst}(chemokines_idx(gene)))>9
                chemokines_map(clst,gene) = -4;
            end
        else
@@ -851,6 +831,7 @@ for clst=1:12
        end
     end
 end
+
 
 no_zero_clst_chmo = find(sum(chemokines_map~=0));
 no_zero_chemokines = chemokines(no_zero_clst_chmo);
@@ -866,15 +847,18 @@ for clst=1:length(no_zero_chemokines)
     rec=rec+1;
    end
 end
-no_zero_chemokines_ordered = no_zero_chemokines([lig_flag_chmo 16 rec_flag_chmo]);
-no_zero_clst_ordered_chmo = no_zero_clst_chmo([lig_flag_chmo 16 rec_flag_chmo]);
+lig_chemo = lig-1;
+rec_chemo = rec-1;
+
+no_zero_chemokines_ordered = no_zero_chemokines([lig_flag_chmo(1:lig_chemo) 16 rec_flag_chmo]);
+no_zero_clst_ordered_chmo = no_zero_clst_chmo([lig_flag_chmo(1:lig_chemo) 16 rec_flag_chmo]);
 
 
 clr_map = [1 .2 .2; 1 .4 .4; 1 .6 .6; 1 .8 .8; 1 1 1; .8 1 .6]; 
-figure(25);
-heatmap(chemokines_map(:,no_zero_clst_ordered_chmo),'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
+% figure(25);
+% heatmap(chemokines_map(:,no_zero_clst_ordered_chmo),'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
 
-%%
+%% Creating table for R - chord graph, chemokines
 
 for gene=1:length(l)
     if ~isempty(find(strcmp(l{gene},chemokines)))
@@ -987,6 +971,7 @@ end
 %    Figure 4A   %
 %%%%%%%%%%%%%%%%%%
 
+%Cytokines
 clear l
 clear r
 clear c
@@ -994,7 +979,7 @@ clear cytokines_map
 clear no_zero_clst
 clear no_zero_cytokines
 clear lig_flag
-% Cytokines
+
 [a,b,c] =xlsread('Cytokine_network_template.xlsx');
 
 l = c(2:end,1);
@@ -1004,31 +989,31 @@ for clst=1:12
     for gene = 1:length(cytokines)
         FC = mean(old{clst}(cytokines_idx(gene),:),2)/mean(young{clst}(cytokines_idx(gene),:),2);
         if  PValues{clst}(cytokines_idx(gene))<.05 && FC>=2 && FC<Inf
-            if -log10(PValues{clst}(cytokines_idx(gene)))<=3
+            if -log10(qnum(cytokines_idx(gene),clst))>=1 && -log10(qnum(cytokines_idx(gene),clst))<2 %-log10(PValues{clst}(cytokines_idx(gene)))<=3
                 cytokines_map(clst,gene) = 1;
                 logged(clst,gene) = -log10(PValues{clst}(cytokines_idx(gene)));
-            elseif -log10(PValues{clst}(cytokines_idx(gene)))>3 && -log10(PValues{clst}(cytokines_idx(gene)))<=6
+            elseif -log10(qnum(cytokines_idx(gene),clst))>=2 && -log10(qnum(cytokines_idx(gene),clst))<3 %-log10(PValues{clst}(cytokines_idx(gene)))>3 && -log10(PValues{clst}(cytokines_idx(gene)))<=6
                 cytokines_map(clst,gene) = 2;
                 logged(clst,gene) = -log10(PValues{clst}(cytokines_idx(gene)));
-            elseif -log10(PValues{clst}(cytokines_idx(gene)))>6
+            elseif -log10(qnum(cytokines_idx(gene),clst))>=3 %-log10(PValues{clst}(cytokines_idx(gene)))>6
                 cytokines_map(clst,gene) = 3;
                 logged(clst,gene) = -log10(PValues{clst}(cytokines_idx(gene)));
                 
             end
         elseif PValues{clst}(cytokines_idx(gene))<.05 && FC<=.5 && FC>0
-            if -log10(PValues{clst}(cytokines_idx(gene)))<=3
+            if -log10(qnum(cytokines_idx(gene),clst))>=1 && -log10(qnum(cytokines_idx(gene),clst))<2 %-log10(PValues{clst}(cytokines_idx(gene)))<=3
                 cytokines_map(clst,gene) = -1;
                 logged(clst,gene) = log10(PValues{clst}(cytokines_idx(gene)));
                 
-            elseif -log10(PValues{clst}(cytokines_idx(gene)))>3 && -log10(PValues{clst}(cytokines_idx(gene)))<=6
+            elseif -log10(qnum(cytokines_idx(gene),clst))>=2 && -log10(qnum(cytokines_idx(gene),clst))<3 %-log10(PValues{clst}(cytokines_idx(gene)))>3 && -log10(PValues{clst}(cytokines_idx(gene)))<=6
                 cytokines_map(clst,gene) = -2;
                 logged(clst,gene) = log10(PValues{clst}(cytokines_idx(gene)));
                 
-            elseif -log10(PValues{clst}(cytokines_idx(gene)))>6 && -log10(PValues{clst}(cytokines_idx(gene)))<=9
+            elseif -log10(qnum(cytokines_idx(gene),clst))>=3 && -log10(qnum(cytokines_idx(gene),clst))<4 %-log10(PValues{clst}(cytokines_idx(gene)))>6 && -log10(PValues{clst}(cytokines_idx(gene)))<=9
                 cytokines_map(clst,gene) = -3;
                 logged(clst,gene) = log10(PValues{clst}(cytokines_idx(gene)));
                 
-            elseif -log10(PValues{clst}(cytokines_idx(gene)))>9
+            elseif -log10(qnum(cytokines_idx(gene),clst))>=4 %-log10(PValues{clst}(cytokines_idx(gene)))>9
                 cytokines_map(clst,gene) = -4;
                 logged(clst,gene) = -log10(PValues{clst}(cytokines_idx(gene)));
                 
@@ -1053,26 +1038,32 @@ for clst=1:length(no_zero_cytokines)
     rec=rec+1;
    end
 end
+lig_cyto = lig-1;
+
 no_zero_cytokines_ordered = no_zero_cytokines([lig_flag_cyto rec_flag_cyto]);
 no_zero_clst_ordered_cyto = no_zero_clst_cyto([lig_flag_cyto rec_flag_cyto]);
 
 clr_map =[1 .2 .2; 1 .4 .4; 1 .6 .6; 1 .8 .8; 1 1 1; .9 1 .8; .8 1 .6; .7 1 .4];
-figure(26);
-h1 = heatmap(cytokines_map(:,no_zero_clst_ordered_cyto),'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
-cdl = h1.XDisplayLabels; 
-h1.XDisplayLabels = repmat(' ',size(cdl,1), size(cdl,2));
-cdl = h1.YDisplayLabels; 
-h1.YDisplayLabels = repmat(' ',size(cdl,1), size(cdl,2));
-%%
-clr_map = [1 .2 .2; 1 .4 .4; 1 .6 .6; 1 .8 .8; 1 1 1; .8 1 .6];
+% figure(26);
+% h1 = heatmap(cytokines_map(:,no_zero_clst_ordered_cyto),'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
+% cdl = h1.XDisplayLabels; 
+% h1.XDisplayLabels = repmat(' ',size(cdl,1), size(cdl,2));
+% cdl = h1.YDisplayLabels; 
+% h1.YDisplayLabels = repmat(' ',size(cdl,1), size(cdl,2));
+
+%% Figure 4A
+cyto_map = cytokines_map(:,no_zero_clst_ordered_cyto);
+chmo_map = chemokines_map(:,no_zero_clst_ordered_chmo);
+
+clr_map =[1 .2 .2; 1 .4 .4; 1 .6 .6; 1 .8 .8; 1 1 1; .9 1 .8; .8 1 .6; .7 1 .4];
+
 figure(30);
-heatmap([chemokines_map(:,no_zero_clst_chmo(lig_flag_chmo)) cytokines_map(:,no_zero_clst_cyto(lig_flag_cyto))],'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
+heatmap([chmo_map(:,1:lig_chemo) cyto_map(:,1:lig_cyto)],'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
 
-clr_map =[1 .2 .2; 1 .4 .4; 1 .6 .6; 1 .8 .8; 1 1 1; .9 1 .8; .8 1 .6; .7 1 .4];%; .6 1 .2;];
 figure(31);
-heatmap([chemokines_map(:,no_zero_clst_chmo([16 rec_flag_chmo])) cytokines_map(:,no_zero_clst_cyto(rec_flag_cyto))],'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
+heatmap([chmo_map(:,lig_chemo+1:end) cyto_map(:,lig_cyto+1:end)],'Colormap',clr_map,'ColorbarVisible','off','CellLabelColor','none');
 
-%%
+%% Creating table for R - chord graph, cytokines
 clear ligands
 for gene=1:length(l)
     if ~isempty(find(strcmp(l{gene},cytokines)))
@@ -1197,68 +1188,512 @@ for clst = 1:12
         fraction_old{clst}(gene,1) = 100*(pos_2/pop_size_2);
         fraction_diff{clst}(gene,1) = fraction_old{clst}(gene,1)-fraction_young{clst}(gene,1);
         
-        if sum(X)~=0
-            [h(gene,clst),p(gene,clst),chi2stat(gene,clst),df] = prop_test(X ,N, 'false');
-        else
-            h(gene,clst)=0;
-            p(gene,clst)=1;
-            chi2stat(gene,clst)=NaN;
-        end
+%         if sum(X)~=0
+%             [h(gene,clst),p(gene,clst),chi2stat(gene,clst),df] = prop_test(X ,N, 'false');
+%         else
+%             h(gene,clst)=0;
+%             p(gene,clst)=1;
+%             chi2stat(gene,clst)=NaN;
+%         end
     FC_fractions{clst}(gene) = (pos_2/pop_size_2)/(pos_1/pop_size_1);   
     end
     
-    up_ind{clst} = find(fraction_diff{clst}>=0);
-    down_ind{clst} = find(fraction_diff{clst}<=0);
+%     up_ind{clst} = find(fraction_diff{clst}>=0);
+%     down_ind{clst} = find(fraction_diff{clst}<=0);
     
-    up_genes_ind{clst} = intersect(up_ind{clst},find(h(:,clst)));
-    down_genes_ind{clst} = intersect(down_ind{clst},find(h(:,clst)));
+%     up_genes_ind{clst} = intersect(up_ind{clst},find(h(:,clst)));
+%     down_genes_ind{clst} = intersect(down_ind{clst},find(h(:,clst)));
+%     
+%     [up_sort{clst},up_sort_ind{clst}]= sort(fraction_diff{clst}(up_genes_ind{clst}),'descend');
+%     [down_sort{clst},down_sort_ind{clst}]= sort(fraction_diff{clst}(down_genes_ind{clst}),'ascend');
+%     
+%     up_genes_name{clst} = name_joint(up_genes_ind{clst}(up_sort_ind{clst}));
+%     down_genes_name{clst} = name_joint(down_genes_ind{clst}(down_sort_ind{clst}));
     
-    [up_sort{clst},up_sort_ind{clst}]= sort(fraction_diff{clst}(up_genes_ind{clst}),'descend');
-    [down_sort{clst},down_sort_ind{clst}]= sort(fraction_diff{clst}(down_genes_ind{clst}),'ascend');
+%     xplot = fraction_diff{clst};
+%     yplot = -log10(p(:,clst));
+%     Sigplot = [up_genes_ind{clst}; down_genes_ind{clst}];
     
-    up_genes_name{clst} = name_joint(up_genes_ind{clst}(up_sort_ind{clst}));
-    down_genes_name{clst} = name_joint(down_genes_ind{clst}(down_sort_ind{clst}));
-    
-    xplot = fraction_diff{clst};
-    yplot = -log10(p(:,clst));
-    Sigplot = [up_genes_ind{clst}; down_genes_ind{clst}];
-    
-    fraction_mat{clst,1} = up_genes_name{clst};
-    fraction_mat{clst,2} = p(up_genes_ind{clst},clst);
-    fraction_mat{clst,3} = fraction_diff{clst}(up_genes_ind{clst});
-    fraction_mat{clst,4} = down_genes_name{clst};
-    fraction_mat{clst,5} = p(down_genes_ind{clst},clst);
-    fraction_mat{clst,6} = fraction_diff{clst}(down_genes_ind{clst});
+%     fraction_mat{clst,1} = up_genes_name{clst};
+%     fraction_mat{clst,2} = p(up_genes_ind{clst},clst);
+%     fraction_mat{clst,3} = fraction_diff{clst}(up_genes_ind{clst});
+%     fraction_mat{clst,4} = down_genes_name{clst};
+%     fraction_mat{clst,5} = p(down_genes_ind{clst},clst);
+%     fraction_mat{clst,6} = fraction_diff{clst}(down_genes_ind{clst});
 end    
 
-%%
-SASP_genes = {'Ighm','Ccr2','Csf2ra','Clec4a2','Clec4a3','Ifngr1','Cxcr6','Csf1r'};
-old_macs = poptype_10X_R{2,2};
-young_macs = poptype_10X_R{2,1};
 
-flag = 0;
-for gene = 1:length(SASP_genes)
-    ind_SASPgene(gene) = find(strcmp(SASP_genes{gene},name_joint));
-    if ismember(ind_SASPgene(gene),up_genes_ind{2})
-        flag=flag+1;
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SASPS Figure 5     %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+SASP_genes_combined = {'IL1R1'...
+,'IL1R2'...
+,'IL6RA'...
+,'IL6ST'...
+,'CXCR1'...
+,'CXCR2'...
+,'TGFBR1'...
+,'TGFBR2'...
+,'LRP1'...
+,'TMEM219'...
+,'Plaur'...
+,'CCR5'...
+,'CCR1'...
+,'CCR3'...
+,'CCR6'...
+,'CD74'...
+,'Ighm'...
+,'Ccr2'...
+,'Csf2ra'...
+,'Clec4a2'...
+,'Clec4a3'...
+,'Ifngr1'...
+,'Cxcr6'...
+,'Csf1r'...
+};
+
+for gene = 1:length(SASP_genes_combined)
+    if ~isempty(find(strcmpi(SASP_genes_combined{gene},name_joint)))
+    ind_SASPgene_combined(gene) = find(strcmpi(SASP_genes_combined{gene},name_joint));
+    else
+        ind_SASPgene_combined(gene) = nan;
     end
 end
-flag
 
-%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   Spplementary Figure 5     %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-[f,dF] = ecdf(FrcDiff{2});
+
+close all
+clear val ind
+[f,dF] = ecdf(fraction_diff{2});
 
 figure(27);
 plot(dF,f,'LineWidth',2); hold on
 
-for i=1:length(ind_SASPgene)
-    [val(i),ind(i)] = min(abs(dF-FrcDiff{2}(ind_SASPgene(i))));
+for i=1:length(ind_SASPgene_combined)
+    [val(i),ind(i)] = min(abs(dF-fraction_diff{2}(ind_SASPgene_combined(i))));
     pvl(i) = 1-f(ind(i));
     
 end
 
-scatter(dF(ind),f(ind),50,'rd','filled')
-ylim([0 1.05])
+% scatter(dF(ind),f(ind),50,'rd','filled')
+% ylim([0 1.05])
+%
+% for i=1:length(ind_SASPgene_combined)
+%     [val_2(i),ind_2(i)] = min(abs(dF-FrcDiff{2}(ind_SASPgene_combined(i))));
+%     pvl_2(i) = 1-f(ind_2(i));
+%
+% end
+
+scatter(dF(ind),f(ind),50,'gd','filled')
+text(dF(ind),f(ind)+0.1*rand(24,1),SASP_genes_combined')
+% 
+% for k =1
+%     rand_ind = randperm(18110);
+%     rand_ind = rand_ind(1:24)
+%     
+%     for i=1:length(rand_ind)
+%         [val(i),ind(i)] = min(abs(dF-FrcDiff{9}(rand_ind(i))));
+%         pvl(i) = 1-f(ind(i));
+%         
+%         scatter(dF(ind),f(ind),50,'kd','filled')
+%         
+%     end
+% end
+%% random cdf 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% SASPS Figure 5  - Supp Fig 1 %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+close all
+clear df f h p n_crit
+n_rep = 100;
+
+data_mphs = log2(expression_FC{2});
+
+[f,dF,flo,fup] = ecdf(data_mphs);
+
+
+%data_mphs = log2(expression_FC{2});
+
+    [h_crit,p_crit] = kstest2(data_mphs(ind_SASPgene_combined),data_mphs);
+
+    [val, ind] = min(abs(f-0.99))
+
+df_crit = dF(ind);
+
+
+tic
+
+for k = 1:n_rep
+    
+    clear pvl
+    rand_ind = randperm(18110);
+    rand_ind = rand_ind(1:24);
+    
+    [f,dF] = ecdf(data_mphs(rand_ind));
+
+    figure(1)
+
+    plot(dF,f,'LineWidth',0.5,'color',[0.8 0.8 0.8]); hold on
+    
+    [h(k),p(k)] = kstest2(data_mphs(rand_ind),data_mphs);
+    
+    n_crit(k) = length(find(data_mphs(rand_ind)>df_crit));
+
+end
+
+toc
+for i = 0:max(n_crit)
+    
+    fdr(i+1) = sum(n_crit==i)/n_rep;
+end
+
+% figure
+% bar([0:max(n_crit)],log10(fdr))
+
+
+
+[f,dF] = ecdf(data_mphs(ind_SASPgene_combined));
+    plot(dF,f,'LineWidth',0.5,'color',[0.5 0 0]); hold on
+    
+[f,dF,flo,fup] = ecdf(data_mphs);
+
+    plot(dF,f,'LineWidth',0.5,'color',[0 0 0.5]); hold on
+
+    
+    
+    
+[val, ind] = min(abs(f-0.99))
+
+df_crit = dF(ind);
+
+ind_up = find(data_mphs>df_crit);
+name_up = name_joint(ind_up);
+
+length(find(p<=p_crit))/n_rep
+
+ Set_fig_YS(figure(1),18,18,18);
+ box off
+ %% Check the effect of SAPS on all cell types
+ 
+ 
+for cnt_cluster = 1:12
+    
+data_clust = fraction_diff{cnt_cluster};
+
+[f,dF,flo,fup] = ecdf(data_clust);
+    [h_crit(cnt_cluster),p_crit(cnt_cluster)] = kstest2(data_clust(ind_SASPgene_combined),data_clust);
+
+
+%data_mphs = log2(expression_FC{2});
+
+end
+
+
+%%
+%%%%%%%%%%%%%%%%
+%%%compare batch correcytion slides.
+%%%%%%%%%%%%%%%%%%
+
+clear  age_index data_wo_bc data_w_bc
+close all
+
+[num,txt,raw] = xlsread('C:\Users\SavirLab\Technion\Yoni Savir - TalBenYakov\Paper submission\elife\review\GitHub files\age_factor.csv');
+txt = txt(2:end)
+
+age_index = zeros(size(txt));
+
+age_index(find(strcmp(txt,'Old')))=1;
+
+data_wo_bc = zeros([length(num),3]);
+data_w_bc = zeros([length(num),3]);
+
+% with bc
+[num,txt,raw] = xlsread('C:\Users\SavirLab\Technion\Yoni Savir - TalBenYakov\Paper submission\elife\review\GitHub files\tsnecorr_w_batch.csv');
+data_w_bc(:,1:2) = num;
+[num,txt,raw] = xlsread('C:\Users\SavirLab\Technion\Yoni Savir - TalBenYakov\Paper submission\elife\review\GitHub files\tsnecorr_w_batch_clusters.csv');
+data_w_bc(:,3) = num(:,2);
+
+% without bc
+[num,txt,raw] = xlsread('C:\Users\SavirLab\Technion\Yoni Savir - TalBenYakov\Paper submission\elife\review\GitHub files\tsnecorr_wo_batch.csv');
+% data_wo_bc(:,1:2) = num; % take the "new" tsne coordinates from the R
+
+data_wo_bc(:,1:2) = all_tSNE; % take Tal's original tsne coordinaties from the paper.
+
+[num,txt,raw] = xlsread('C:\Users\SavirLab\Technion\Yoni Savir - TalBenYakov\Paper submission\elife\review\GitHub files\tsnecorr_wo_batch_clusters.csv');
+data_wo_bc(:,3) = num(:,2);
+%
+
+num_clust = 16;
+
+
+
+%
+
+figure(1)
+
+subplot(1,2,1);hold on
+scatter(data_wo_bc(find(age_index==0),1),data_wo_bc(find(age_index==0),2),10,[.4 .7 1],'o','filled','MarkerFaceAlpha',.5); 
+scatter(data_wo_bc(age_index==1,1),data_wo_bc(age_index==1,2),10,[1 .6 .8],'o','filled','MarkerFaceAlpha',.5); 
+%    legend({'Young','Old'});
+   title('w/o bc')
+   
+   subplot(1,2,2);hold on
+scatter(data_w_bc(find(age_index==0),1),data_w_bc(find(age_index==0),2),10,[.4 .7 1],'o','filled','MarkerFaceAlpha',.5); 
+scatter(data_w_bc(age_index==1,1),data_w_bc(age_index==1,2),10,[1 .6 .8],'o','filled','MarkerFaceAlpha',.5); 
+%    legend({'Young','Old'});
+      title('w bc')
+
+for cnt_cluster = 1:num_clust
+    
+    ind_clust = find(data_wo_bc(:,3)==cnt_cluster-1);
+    
+    
+    subplot(1,2,1)
+   scatter(mean(data_wo_bc(ind_clust,1)),mean(data_wo_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+    text(mean(data_wo_bc(ind_clust,1)),mean(data_wo_bc(ind_clust,2)),num2str((cnt_cluster)))
+    
+    subplot(1,2,2)
+    
+       scatter(mean(data_w_bc(ind_clust,1)),mean(data_w_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+    text(mean(data_w_bc(ind_clust,1)),mean(data_w_bc(ind_clust,2)),num2str((cnt_cluster)))
+    
+    
+    
+end
+%%
+
+% remove 14 and 15
+ind_clust = find(data_wo_bc(:,3)==13);
+data_wo_bc(ind_clust,1:2) = nan;
+data_w_bc(ind_clust,1:2) = nan;
+
+ind_clust = find(data_wo_bc(:,3)==14);
+data_wo_bc(ind_clust,1:2) = nan;
+data_w_bc(ind_clust,1:2) = nan;
+
+
+% 2 = 6
+data_w_bc((data_w_bc(:,3)==2-1),3)=6-1;
+% 11=9
+data_w_bc((data_w_bc(:,3)==11-1),3)=9-1;
+
+%16=1
+data_w_bc((data_w_bc(:,3)==16-1),3)=1-1;
+
+figure(2)
+
+subplot(1,2,1);hold on
+scatter(data_wo_bc(find(age_index==0),1),data_wo_bc(find(age_index==0),2),10,[.4 .7 1],'o','filled','MarkerFaceAlpha',.5); 
+scatter(data_wo_bc(age_index==1,1),data_wo_bc(age_index==1,2),10,[1 .6 .8],'o','filled','MarkerFaceAlpha',.5); 
+%    legend({'Young','Old'});
+%    title('w/o bc')
+   
+xlim([-50 50]);ylim([-60 60]);
+axis square
+Set_fig_YS(figure(2),18,18,18)
+set(gca,'visible','off')
+
+   subplot(1,2,2);hold on
+scatter(data_w_bc(find(age_index==0),1),data_w_bc(find(age_index==0),2),10,[.4 .7 1],'o','filled','MarkerFaceAlpha',.5); 
+scatter(data_w_bc(age_index==1,1),data_w_bc(age_index==1,2),10,[1 .6 .8],'o','filled','MarkerFaceAlpha',.5); 
+%    legend({'Young','Old'});
+%       title('w bc')
+xlim([-50 50]);ylim([-60 60]);
+axis square
+Set_fig_YS(figure(2),18,18,18)
+set(gca,'visible','off')
+
+% for cnt_cluster = 1:num_clust
+%     
+%     ind_clust = find(data_wo_bc(:,3)==cnt_cluster-1);
+%     
+%     
+%     subplot(1,2,1)
+%    scatter(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+% 
+%     text(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),num2str((cnt_cluster-1)))
+%     
+%     
+%         ind_clust = find(data_w_bc(:,3)==cnt_cluster-1);
+% 
+%     subplot(1,2,2)
+%     
+%        scatter(nanmean(data_w_bc(ind_clust,1)),nanmean(data_w_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+% 
+%     text(nanmean(data_w_bc(ind_clust,1)),nanmean(data_w_bc(ind_clust,2)),num2str((cnt_cluster-1)))
+%     
+%     
+%     
+% end
+
+
+
+%
+
+
+%
+figure(3)
+for cnt_cluster = 1:num_clust
+    
+    ind_clust = find(all_cluster==cnt_cluster-1);
+    
+    
+    subplot(1,2,1);hold on
+       scatter((data_wo_bc(ind_clust,1)),(data_wo_bc(ind_clust,2)),10,'o','filled','MarkerFaceAlpha',.5); 
+
+   scatter(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+    text(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),num2str((cnt_cluster-1)))
+    
+    
+    
+    ind_clust = find(data_w_bc(:,3)==cnt_cluster-1);
+
+    
+    subplot(1,2,2);hold on
+    
+           scatter((data_w_bc(ind_clust,1)),(data_w_bc(ind_clust,2)),10,'o','filled','MarkerFaceAlpha',.5); 
+
+       scatter(nanmean(data_w_bc(ind_clust,1)),nanmean(data_w_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+    text(nanmean(data_w_bc(ind_clust,1)),nanmean(data_w_bc(ind_clust,2)),num2str((cnt_cluster-1)))
+    
+    
+    
+end
+
+
+
+%% allign w and w/o cluster numbers
+num_clust = 16;
+data_w_bc_aligned = data_w_bc;
+
+  %   0     2     3     4     5     6     7     8     9    11    12    13    14
+
+align_cluster =  [1 4 5 6 2 7 9 14 11 13 12];
+
+% check allign
+
+cluster_vec = unique(data_wo_bc(:,3))';
+
+for cnt_cluster = 1:length(cluster_vec)
+    
+    ind_cluster = find(data_w_bc(:,3)==cluster_vec(cnt_cluster));
+    
+    align_cluster_auto(cnt_cluster) = round(nanmedian(all_cluster(ind_cluster)));
+    
+    
+    
+if ~isempty(ind_cluster)
+    data_w_bc_aligned(ind_cluster,3) = align_cluster_auto(cnt_cluster);
+end
+    
+end
+    
+%%
+close all
+
+color_batch = [1 .2 .6; 1 .4 .4; 1 .6 .2; .75 .75 .75;...
+    .6 .6 0; .3 .6 0; .6 .3 0; 0 .6 .3;...
+    0 .6 .6; 0 .8 .8; 0 0 0; .4 .7 1;...
+    .6 .6 1; 1 .6 1;];
+
+figure(4)
+for cnt_cluster = 1:num_clust
+    
+    ind_clust = find(all_cluster==cnt_cluster-1);
+    
+      
+    subplot(1,2,1);hold on
+       scatter((data_wo_bc(ind_clust,1)),(data_wo_bc(ind_clust,2)),10,color_batch(cnt_cluster,:),'o','filled','MarkerFaceAlpha',.5); 
+
+%    scatter(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+%     text(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),num2str((cnt_cluster)))
+    
+    
+    
+    ind_clust = find(data_w_bc_aligned(:,3)==cnt_cluster-1);
+
+    
+    subplot(1,2,2);hold on
+    
+           scatter((data_w_bc_aligned(ind_clust,1)),(data_w_bc_aligned(ind_clust,2)),10,color_batch(cnt_cluster,:),'o','filled','MarkerFaceAlpha',.5); 
+
+%        scatter(nanmean(data_w_bc(ind_clust,1)),nanmean(data_w_bc_aligned(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+%     text(nanmean(data_w_bc_aligned(ind_clust,1)),nanmean(data_w_bc_aligned(ind_clust,2)),num2str((cnt_cluster)))
+    
+    
+    
+end
+figure(4)
+   subplot(1,2,1)
+xlim([-50 50]);ylim([-60 60]);
+axis square
+Set_fig_YS(figure(4),18,18,18)
+set(gca,'visible','off')
+
+   subplot(1,2,2)
+xlim([-50 50]);ylim([-60 60]);
+axis square
+Set_fig_YS(figure(4),18,18,18)
+set(gca,'visible','off')
+
+%%
+close all
+
+color = [1 .4 .4; 1 .6 .2; .75 .75 .75; .6 .6 0;...
+    .3 .6 0; .6 .3 0; 0 .6 .3; 0 .6 .6;...
+    0 .8 .8; .2 .6 1; .4 .7 1; .6 .6 1;...
+    1 .6 1; 1 .2 .6];
+
+color_batch = [1 .2 .6; 1 .4 .4; 1 .6 .2; .75 .75 .75;...
+    .6 .6 0; .3 .6 0; .6 .3 0; 0 .6 .3;...
+    0 .6 .6; 0 .8 .8; 0 0 0; .4 .7 1;...
+    .6 .6 1; 1 .6 1;];
+
+figure(5)
+for cnt_cluster = 1:num_clust
+    
+    ind_clust = find(all_cluster==cnt_cluster);
+    
+    
+    subplot(1,2,1);hold on
+       scatter((data_wo_bc(ind_clust,1)),(data_wo_bc(ind_clust,2)),10,color(cnt_cluster,:),'o','filled','MarkerFaceAlpha',.5); 
+
+%    scatter(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+%     text(nanmean(data_wo_bc(ind_clust,1)),nanmean(data_wo_bc(ind_clust,2)),num2str((cnt_cluster)))
+    
+    
+    
+%     ind_clust = find(data_w_bc_aligned(:,3)==cnt_cluster-1);
+
+    
+    subplot(1,2,2);hold on
+    
+           scatter((data_w_bc_aligned(ind_clust,1)),(data_w_bc_aligned(ind_clust,2)),10,color(cnt_cluster,:),'o','filled','MarkerFaceAlpha',.5); 
+
+%        scatter(nanmean(data_w_bc(ind_clust,1)),nanmean(data_w_bc_aligned(ind_clust,2)),10,'k','o','filled','MarkerFaceAlpha',.5); 
+
+    text(nanmean(data_w_bc_aligned(ind_clust,1)),nanmean(data_w_bc_aligned(ind_clust,2)),num2str((cnt_cluster)))
+    
+    
+    
+end
+figure(5)
+   subplot(1,2,1)
+xlim([-50 50]);ylim([-60 60]);
+axis square
+Set_fig_YS(figure(5),18,18,18)
+set(gca,'visible','off')
+
+   subplot(1,2,2)
+xlim([-50 50]);ylim([-60 60]);
+axis square
+Set_fig_YS(figure(5),18,18,18)
+set(gca,'visible','off')
+
